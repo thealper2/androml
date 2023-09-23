@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}
+Statistics | Androml
+{% endblock %}
+{% block content %}
+{% if selected %}
+<main class="col-md-10">
+    <h1>{{ report["filename"][0] }}'s Statistics</h1>
+    <p style="font-size: 30px">
+        Label:
+        <span style="color: {% if report["label"][0] == "benign" %} green {% else %} red {% endif %};">
+            {{ report["label"][0] }}
+        </span>
+    </p>
+    <h3 align="center">Manifest Permission</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(113) %}
+            <tr>
+                <th>{{ permissions_list[i] }}</th>
+                <th>{{ report[permissions_list[i]][0] }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3 align="center">API Call Signature</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(73) %}
+            <tr>
+                <th>{{ api_call_signatures[i] }}</th>
+                <th>{{ report[api_call_signatures[i]][0] }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3 align="center">Intent</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(23) %}
+            <tr>
+                <th>{{ intents[i] }}</th>
+                <th>{{ report[intents[i]][0] }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3 align="center">Commands Signature</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(6) %}
+            <tr>
+                <th>{{ keywords[i] }}</th>
+                <th>{{ report[keywords[i]][0] }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+{% else %}
+<h1>Reports</h1>
+<form method="POST">
+    <label for="folder">Choose Report from History:</label>
+    <select id="folder" name="folder">
+        {% for folder in folders %}
+            <option value="{{ folder }}"
+                {% if folder == selected_folder %} selected {% endif %}>
+                {{ folder }}
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Choose" />
+</form>
+{% endif %}
+{% endblock %}
